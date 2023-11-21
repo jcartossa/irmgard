@@ -1,12 +1,13 @@
-FROM golang:1.14
+FROM golang:1.21.4-alpine3.17
 
 WORKDIR /go/src/app
 
+COPY go.mod .
+COPY go.sum .
+
 COPY . .
 
-RUN go get -d -v github.com/minio/minio-go/v6
-RUN go get -d -v github.com/go-pg/pg/v10
-RUN go get -d -v github.com/streadway/amqp
+RUN go mod download
 
 RUN go install -v main.go
 
